@@ -54,7 +54,7 @@ public class Supplier {
     }
 
     public void removePurchasableItem(String item, User user) {
-        if (user.getUserType().equalsIgnoreCase("admin")) {
+        if (user.getUserType().equalsIgnoreCase("admin") && this.supplierItemList[0][0] != null) {
             int j = 0;
             while (!(this.supplierItemList[j][0].equalsIgnoreCase(item)) && j < this.supplierItemList.length) {
                 j++;
@@ -62,11 +62,11 @@ public class Supplier {
             if (this.supplierItemList[j][0].equalsIgnoreCase(item)) {
                 String[][] temp = new String[this.supplierItemList.length][2];
 
-                for (int k = 0; k < temp.length - j; k++) {
-                    temp[k] = Arrays.copyOfRange(this.supplierItemList[k], j + 1, this.supplierItemList.length - j);
+                for (int k = j + 1; k < temp.length - j; k++) {
+                    temp[k] = Arrays.copyOfRange(this.supplierItemList[k], 0, 1);
                 }
-                for (int k = 0; k < temp.length - j; k++) {
-                    this.supplierItemList[k] = Arrays.copyOfRange(temp[k], 0, this.supplierItemList.length - j);
+                for (int k = j; k < temp.length - j; k++) {
+                    this.supplierItemList[k] = Arrays.copyOfRange(temp[k], 0, 1);
                 }
             }
             else {
