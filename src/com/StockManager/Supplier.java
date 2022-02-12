@@ -61,16 +61,12 @@ public class Supplier {
             }
             if (this.supplierItemList[j][0].equalsIgnoreCase(item)) {
                 String[][] temp = new String[this.supplierItemList.length][2];
-                int l = 0;
 
                 for (int k = 0; k < temp.length - j; k++) {
-                    temp[l] = Arrays.copyOfRange(this.supplierItemList[k], )
-                    l++;
+                    temp[k] = Arrays.copyOfRange(this.supplierItemList[k], j + 1, this.supplierItemList.length - j);
                 }
-                l = 0;
-                for (int k = j; k < temp.length - k - 1; k++) {
-                    System.arraycopy(temp[l], 0, this.supplierItemList[k], j, 2);
-                    l++;
+                for (int k = 0; k < temp.length - j; k++) {
+                    this.supplierItemList[k] = Arrays.copyOfRange(temp[k], 0, this.supplierItemList.length - j);
                 }
             }
             else {
