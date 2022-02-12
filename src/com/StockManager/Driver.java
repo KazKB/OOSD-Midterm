@@ -45,7 +45,7 @@ public class Driver {
 
         BeerCo.printPurchasableItems();
 
-        BeerCo.removePurchasableItem("beer4", admin);
+        BeerCo.removePurchasableItem("beer21", admin);
 
         BeerCo.printPurchasableItems();
     }
