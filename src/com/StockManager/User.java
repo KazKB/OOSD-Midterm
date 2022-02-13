@@ -162,4 +162,26 @@ public class User {
 
         stockList[k].addToStock(quantity);
     }
+
+    public void removeQuantityFromStock(String stock, Integer quantity) {
+        Integer k = 0;
+
+        //Cycles through array until stock is found, end has reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+            k++;
+        }
+
+        stockList[k].removeFromStock(quantity);
+    }
+
+    public Stock getStock(String stock) {
+        Integer k = 0;
+
+        //Cycles through array until stock is found, end has reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+            k++;
+        }
+
+        return stockList[k];
+    }
 }

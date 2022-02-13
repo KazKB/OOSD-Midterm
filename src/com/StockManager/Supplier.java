@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class Supplier {
-    private String supplierName, supplierEmail;
-    private Integer supplierContactNumber, supplierInvoiceNumber = 0, i = 0;
+    private String supplierName, supplierEmail, supplierContactNumber;
+    private Integer invoiceNumber = 0, i = 0;
     private String[][] supplierItemList = new String[10][2];
 
     public Supplier() {}
 
-    public Supplier(String name, String email, Integer contactNumber, User user) {
+    public Supplier(String name, String email, String contactNumber, User user) {
         if(user.getUserType().equalsIgnoreCase("admin")) {
             this.supplierName = name;
             this.supplierEmail = email;
@@ -22,7 +22,8 @@ public class Supplier {
         }
     }
 
-    public void editSupplierInfo(String name, String email, Integer contactNumber, User user) {
+    //Basically the constructor but as a method
+    public void editSupplierInfo(String name, String email, String contactNumber, User user) {
         if(user.getUserType().equalsIgnoreCase("admin")) {
             this.supplierName = name;
             this.supplierEmail = email;
@@ -56,11 +57,11 @@ public class Supplier {
         }
     }
 
-    public Integer getSupplierContactNumber() {
+    public String getSupplierContactNumber() {
         return supplierContactNumber;
     }
 
-    public void setSupplierContactNumber(Integer supplierContactNumber, User user) {
+    public void setSupplierContactNumber(String supplierContactNumber, User user) {
         if (user.getUserType().equalsIgnoreCase("admin")) {
             this.supplierContactNumber = supplierContactNumber;
         }
@@ -78,14 +79,12 @@ public class Supplier {
                 //Loops through rows of the original 2d array and copies the columns to the temporary 2d array
                 for (int j = 0; j < this.supplierItemList.length; j++) {
                     System.arraycopy(this.supplierItemList[j], 0, temp[j], 0, 2);
-//                    temp[j] = Arrays.copyOf(this.supplierItemList[j], this.supplierItemList[j].length);
                 }
                 //Resizes the original to the temporary 2d array's size
                 this.supplierItemList = new String[temp.length][2];
                 //Loops through rows of the temporary 2d array and copies the columns to the original 2d array
                 for (int j = 0; j < this.supplierItemList.length; j++) {
                     System.arraycopy(temp[j], 0, this.supplierItemList[j], 0, 2);
-//                    this.supplierItemList[j] = Arrays.copyOf(temp[j], temp[j].length);
                 }
             }
             this.supplierItemList[i][0] = item;
@@ -114,14 +113,14 @@ public class Supplier {
                     //If the position is not in the first position which is 0, subtract that
                     //from the length to loop the exact amount
                     if (j > 0) {
-                        for (Integer k = j + 1; k <= temp.length - l; k++) {
+                        for (Integer k = j + 1; k <= i - l; k++) {
                             temp[l] = Arrays.copyOf(this.supplierItemList[k], 2);
                             l++;
                         }
                     } else {
                         //If the position is in the first position which is 0, subtract 1
                         //from the length to loop the exact amount
-                        for (Integer k = j + 1; k <= temp.length - j; k++) {
+                        for (Integer k = j + 1; k <= i - j; k++) {
                             temp[l] = Arrays.copyOf(this.supplierItemList[k], 2);
                             l++;
                         }
@@ -166,19 +165,19 @@ public class Supplier {
 
     public void createAndPrintInvoice (String item, Integer quantity, User user) {
         Double invoiceTotal = 0.0;
-        Integer i = 0, k = 0;
+        Integer j = 0;
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-        while (!(this.supplierItemList[i][0].equalsIgnoreCase(item)) && i < this.supplierItemList.length - 1 && this.supplierItemList[i + 1][0] != null) {
-            i++;
+        while (!(this.supplierItemList[j][0].equalsIgnoreCase(item)) && j < this.supplierItemList.length - 1 && this.supplierItemList[j + 1][0] != null) {
+            j++;
         }
 
-        if (this.supplierItemList[i][0].equalsIgnoreCase(item)) {
+        if (this.supplierItemList[j][0].equalsIgnoreCase(item)) {
             if(user.getUserType().equalsIgnoreCase("admin")) {
                 if (user.checkIfInStock(item) == true) {
-                    this.supplierInvoiceNumber += 1;
-                    invoiceTotal = Double.parseDouble(this.supplierItemList[i][1]) * quantity;
+                    this.invoiceNumber += 1;
+                    invoiceTotal = Double.parseDouble(this.supplierItemList[j][1]) * quantity;
 
                     user.addQuantityToStock(item, quantity);
 
@@ -190,7 +189,7 @@ public class Supplier {
                                     "Price: $%.2f\n" +
                                     "Quantity: %d\n" +
                                     "Total: $%.2f\n\n",
-                            this.supplierInvoiceNumber, formatter.format(date), this.supplierName, item.toUpperCase(), Double.parseDouble(this.supplierItemList[i][1]), quantity, invoiceTotal);
+                            this.invoiceNumber, formatter.format(date), this.supplierName, item.toUpperCase(), Double.parseDouble(this.supplierItemList[j][1]), quantity, invoiceTotal);
                 }
                 else {
                     System.out.println(item.toUpperCase() + " is not in the stock list.\n");

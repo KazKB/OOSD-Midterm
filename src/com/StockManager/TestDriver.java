@@ -22,7 +22,8 @@ public class TestDriver {
 
         //Testing the basic functions of the Supplier Class
         //Adds items and test removing from an empty purchasable items list of the supplier
-        Supplier BeerCo = new Supplier("BeerCo", "3", 3, admin);
+        Supplier BeerCo = new Supplier("BeerCo", "3", "3", admin);
+
         BeerCo.printPurchasableItems();
         BeerCo.removePurchasableItem("beer", admin);
         BeerCo.addPurchasableItem("beer", "10", admin);
@@ -49,7 +50,7 @@ public class TestDriver {
         BeerCo.printPurchasableItems();
 
         //Test removing items from the list of purchasable items from the supplier
-        BeerCo.removePurchasableItem("beer15", admin);
+        BeerCo.removePurchasableItem("beer", admin);
         BeerCo.addPurchasableItem("wadadli", "10", admin);
         BeerCo.printPurchasableItems();
 
@@ -77,5 +78,20 @@ public class TestDriver {
         BeerCo.createAndPrintInvoice("banks" , 5, admin);
 
         banks.viewStockInformation();
+
+        //Testing Customer Class's basic functions
+        Customer John = new Customer("John", "email", "d", admin);
+
+        John.printPurchasedItems();
+        John.removePurchasedItem("presidente", 4, admin);
+        John.createAndPrintSalesReceipt("banks", 4, admin);
+
+        banks.viewStockInformation();
+        John.printPurchasedItems();
+
+        John.removePurchasedItem("banks",4, admin);
+        John.printPurchasedItems();
+        banks.viewStockInformation();
+
     }
 }
