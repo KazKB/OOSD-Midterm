@@ -6,9 +6,8 @@ import java.util.Date;
 
 public class Supplier {
     private String supplierName, supplierEmail;
-    private Integer supplierContactNumber, supplierStockSold, supplierInvoiceNumber = 0;
+    private Integer supplierContactNumber, supplierInvoiceNumber = 0, i = 0;
     private String[][] supplierItemList = new String[10][2];
-    private Integer i = 0;
 
     public Supplier() {}
 
@@ -18,6 +17,9 @@ public class Supplier {
             this.supplierEmail = email;
             this.supplierContactNumber = contactNumber;
         }
+        else {
+            System.out.println("You do not have admin privileges.\n");
+        }
     }
 
     public void editSupplierInfo(String name, String email, Integer contactNumber, User user) {
@@ -25,6 +27,45 @@ public class Supplier {
             this.supplierName = name;
             this.supplierEmail = email;
             this.supplierContactNumber = contactNumber;
+        }
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName, User user) {
+        if (user.getUserType().equalsIgnoreCase("admin")) {
+            this.supplierName = supplierName;
+        }
+        else {
+            System.out.println("You do not have admin privileges.\n");
+        }
+    }
+
+    public String getSupplierEmail() {
+        return supplierEmail;
+    }
+
+    public void setSupplierEmail(String supplierEmail, User user) {
+        if (user.getUserType().equalsIgnoreCase("admin")) {
+            this.supplierEmail = supplierEmail;
+        }
+        else {
+            System.out.println("You do not have admin privileges.\n");
+        }
+    }
+
+    public Integer getSupplierContactNumber() {
+        return supplierContactNumber;
+    }
+
+    public void setSupplierContactNumber(Integer supplierContactNumber, User user) {
+        if (user.getUserType().equalsIgnoreCase("admin")) {
+            this.supplierContactNumber = supplierContactNumber;
+        }
+        else {
+            System.out.println("You do not have admin privileges.\n");
         }
     }
 
@@ -110,12 +151,17 @@ public class Supplier {
     public void printPurchasableItems() {
         Integer j = 0;
 
-        while (this.supplierItemList[j][0] != null) {
-            System.out.printf("Item %d - %s: $%.2f\n", j+1, this.supplierItemList[j][0].toUpperCase(), Double.parseDouble(this.supplierItemList[j][1]));
-            j++;
+        if (this.supplierItemList[0][0] == null) {
+            System.out.println("There are no purchasable items.\n");
         }
+        else {
+            while (this.supplierItemList[j][0] != null) {
+                System.out.printf("Item %d - %s: $%.2f\n", j + 1, this.supplierItemList[j][0].toUpperCase(), Double.parseDouble(this.supplierItemList[j][1]));
+                j++;
+            }
 
-        System.out.println();
+            System.out.println();
+        }
     }
 
     public void createAndPrintInvoice (String item, Integer quantity, User user) {

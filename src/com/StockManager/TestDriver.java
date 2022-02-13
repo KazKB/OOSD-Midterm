@@ -23,6 +23,7 @@ public class TestDriver {
         //Testing the basic functions of the Supplier Class
         //Adds items and test removing from an empty purchasable items list of the supplier
         Supplier BeerCo = new Supplier("BeerCo", "3", 3, admin);
+        BeerCo.printPurchasableItems();
         BeerCo.removePurchasableItem("beer", admin);
         BeerCo.addPurchasableItem("beer", "10", admin);
         BeerCo.addPurchasableItem("beer2", "12", admin);
@@ -57,6 +58,7 @@ public class TestDriver {
 
         //Testing the basic functions of the User Class and the Invoice function of Supplier
         //Adds and removes stock from the stock list in the User Class
+//        admin.viewStockList();
         admin.removeFromStockList(wadadli);
         admin.addToStockList(wadadli);
         admin.addToStockList(banks);

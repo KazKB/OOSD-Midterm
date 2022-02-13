@@ -1,7 +1,5 @@
 package com.StockManager;
 
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.Arrays;
 
 public class User {
@@ -109,28 +107,33 @@ public class User {
     }
 
     public void viewStockList() {
-        for(Integer k = 0; k < this.i; k++) {
-            System.out.println(stockList[k].getStockName().toUpperCase());
-        }
-        System.out.println();
-    }
-
-    public boolean checkIfInStock(Stock stock) {
-        Integer k = 0;
-
-        //Cycles through array until stock is found, end has reached or the next item is null
-        while (!stockList[k].getStockName().equalsIgnoreCase(stock.getStockName()) && k < this.i && stockList[k + 1] != null) {
-            k++;
-        }
-
-        //Checks if the stock item is in or not
-        if(stockList[k].getStockName().equalsIgnoreCase(stock.getStockName())) {
-            return true;
+        if (stockList[0].getStockName() == null) {
+            System.out.println("Stock List is empty.\n");
         }
         else {
-            return false;
+            for (Integer k = 0; k < this.i; k++) {
+                System.out.println(stockList[k].getStockName().toUpperCase());
+            }
+            System.out.println();
         }
     }
+
+//    public boolean checkIfInStock(Stock stock) {
+//        Integer k = 0;
+//
+//        //Cycles through array until stock is found, end has reached or the next item is null
+//        while (!stockList[k].getStockName().equalsIgnoreCase(stock.getStockName()) && k < this.i && stockList[k + 1] != null) {
+//            k++;
+//        }
+//
+//        //Checks if the stock item is in or not
+//        if(stockList[k].getStockName().equalsIgnoreCase(stock.getStockName())) {
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
+//    }
 
     public boolean checkIfInStock(String stock) {
         Integer k = 0;
