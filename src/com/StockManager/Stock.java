@@ -10,13 +10,20 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(String stockName, String stockDescription, String stockID, String stockCategory, Double stockPrice, User user) {
+    public Stock(String name, Double price, User user) {
         if(user.getUserType().equalsIgnoreCase("admin")) {
-            this.stockName = stockName;
-            this.stockDescription = stockDescription;
-            this.stockID = stockID;
-            this.stockCategory = stockCategory;
-            this.stockPrice = stockPrice;
+            this.stockName = name;
+            this.stockPrice = price;
+        }
+    }
+
+    public Stock(String name, String description, String id, String category, Double price, User user) {
+        if(user.getUserType().equalsIgnoreCase("admin")) {
+            this.stockName = name;
+            this.stockDescription = description;
+            this.stockID = id;
+            this.stockCategory = category;
+            this.stockPrice = price;
         }
         else {
             System.out.println("You do not have admin privileges.");
@@ -79,11 +86,11 @@ public class Stock {
             System.out.println("You do not have admin privileges.");
     }
 
-    public void addStock(Integer num) {
+    public void addToStock(Integer num) {
         this.stockQuantity += num;
     }
 
-    public void removeStock(Integer num) {
+    public void removeFromStock(Integer num) {
         if(this.stockQuantity <= 0) {
             System.out.println("No more " + this.stockName + " to take from.");
         }
@@ -96,7 +103,7 @@ public class Stock {
     }
 
     //Basically the constructor all over again
-    public void editStock(String stockName, String stockDescription, String stockID, String stockCategory, Double stockPrice, User user) {
+    public void editStockInformation(String stockName, String stockDescription, String stockID, String stockCategory, Double stockPrice, User user) {
         if(user.getUserType().equalsIgnoreCase("admin")) {
             this.stockName = stockName;
             this.stockDescription = stockDescription;
@@ -108,7 +115,7 @@ public class Stock {
             System.out.println("You do not have admin privileges.");
     }
 
-    public void viewStock() {
+    public void viewStockInformation() {
         if (this.stockName != null && this.stockID != null && this.stockCategory != null && this.stockPrice != null) {
             System.out.printf("Name: %s%n" +
                             "ID: %s%n" +

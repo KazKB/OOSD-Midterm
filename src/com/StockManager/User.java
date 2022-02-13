@@ -1,7 +1,13 @@
 package com.StockManager;
 
+import org.w3c.dom.ls.LSOutput;
+
+import java.util.Arrays;
+
 public class User {
     private String userName, userEmail, userID, userType, password;
+    private static Stock[] stockList = new Stock[10];
+    private Integer i = 0;
 
     public User() {}
 
@@ -62,7 +68,95 @@ public class User {
         return userType;
     }
 
-    public String getPassword() {
-        return password;
+    public void addToStockList(Stock stock) {
+        if (this.userType.equalsIgnoreCase("admin")) {
+            if (this.i >= stockList.length) {
+                stockList = Arrays.copyOf(stockList, stockList.length + 5);
+            }
+            stockList[this.i] = stock;
+            this.i++;
+        }
+        else {
+            System.out.println("You do not have admin privileges.\n");
+        }
+    }
+
+    public void removeFromStockList(Stock stock) {
+        Integer k = 0;
+
+        if (this.userType.equalsIgnoreCase("admin")) {
+            if (stockList[0] != null) {
+                //Cycles through until the end of the array or until the particular stock is found
+                while (!stockList[k].getStockName().equalsIgnoreCase(stock.getStockName()) && k < this.i - 1) {
+                    k++;
+                }
+                //If stock is found, remove it and the rest after it from the list.
+                //Then copy the rest stock back to the list.
+                if (stockList[k].getStockName().equalsIgnoreCase(stock.getStockName())) {
+                    System.arraycopy(stockList, k + 1, stockList, k, this.i);
+                    this.i--;
+                } else {
+                    System.out.println(stock.getStockName().toUpperCase() + " is not in stock.\n");
+                }
+            }
+            else {
+                System.out.println("Stock List is empty.\n");
+            }
+        }
+        else {
+            System.out.println("You do not have admin privileges.\n");
+        }
+    }
+
+    public void viewStockList() {
+        for(Integer k = 0; k < this.i; k++) {
+            System.out.println(stockList[k].getStockName().toUpperCase());
+        }
+        System.out.println();
+    }
+
+    public boolean checkIfInStock(Stock stock) {
+        Integer k = 0;
+
+        //Cycles through array until stock is found, end has reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock.getStockName()) && k < this.i && stockList[k + 1] != null) {
+            k++;
+        }
+
+        //Checks if the stock item is in or not
+        if(stockList[k].getStockName().equalsIgnoreCase(stock.getStockName())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean checkIfInStock(String stock) {
+        Integer k = 0;
+
+        //Cycles through array until stock is found, end has reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+            k++;
+        }
+
+        //Checks if the stock item is in or not
+        if(stockList[k].getStockName().equalsIgnoreCase(stock)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void addQuantityToStock(String stock, Integer quantity) {
+        Integer k = 0;
+
+        //Cycles through array until stock is found, end has reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+            k++;
+        }
+
+        stockList[k].addToStock(quantity);
     }
 }
