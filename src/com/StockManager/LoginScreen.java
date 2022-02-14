@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.Scanner;
 
 public class LoginScreen {
+    public User user;
+
     LoginScreen() {
         //Fonts
         Font titleFont = new Font("DialogInput", Font.BOLD, 20);
@@ -76,12 +78,16 @@ public class LoginScreen {
             assert read != null;
             read.useDelimiter(",");
 
-            String check;
+            String check, type = null;
             boolean exist = false, exist2 = false;
 
             //Checks to see if id and password exists in the file
             while (read.hasNext()) {
                 check = read.next();
+
+                if (check.equalsIgnoreCase("admin") || check.equalsIgnoreCase("regular")) {
+                    type = check;
+                }
 
                 if (check.equals(idTextField.getText())) {
                     exist = true;
@@ -90,7 +96,6 @@ public class LoginScreen {
                     if (check.equals(String.valueOf(passwordTextField.getPassword()))) {
                         exist2 = true;
                     }
-                    break;
                 }
 
             }
@@ -101,6 +106,7 @@ public class LoginScreen {
                 if (exist) {
                     if (exist2) {
                         //CLoses this window and open menu selection screen
+                        user = new User(type, idTextField.getText());
                         frame.dispose();
                         new MenuSelection();
                     } else {

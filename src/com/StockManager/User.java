@@ -5,9 +5,14 @@ import java.util.Arrays;
 public class User {
     private String userName, userEmail, userID, userType, password;
     private static Stock[] stockList = new Stock[10];
-    private Integer i = 0;
+    private static Integer i = 0;
 
     public User() {}
+
+    public User(String type, String id) {
+        this.userType = type;
+        this.userID = id;
+    }
 
     public User(String name, String email, String id, String type, String password) {
         this.userName = name;
@@ -117,23 +122,6 @@ public class User {
             System.out.println();
         }
     }
-
-//    public boolean checkIfInStock(Stock stock) {
-//        Integer k = 0;
-//
-//        //Cycles through array until stock is found, end has reached or the next item is null
-//        while (!stockList[k].getStockName().equalsIgnoreCase(stock.getStockName()) && k < this.i && stockList[k + 1] != null) {
-//            k++;
-//        }
-//
-//        //Checks if the stock item is in or not
-//        if(stockList[k].getStockName().equalsIgnoreCase(stock.getStockName())) {
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
-//    }
 
     public boolean checkIfInStock(String stock) {
         Integer k = 0;

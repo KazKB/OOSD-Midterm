@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.Scanner;
 
 public class SignUpScreen {
+    public User user;
+
     SignUpScreen() {
         //Fonts
         Font titleFont = new Font("DialogInput", Font.BOLD, 20);
@@ -154,6 +156,8 @@ public class SignUpScreen {
                             userDetails[3] = typeTextField.getText();
                             userDetails[4] = idTextField.getText();
                             userDetails[5] = String.valueOf(passwordTextField.getPassword());
+
+                            user = new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3], userDetails[4], userDetails[5]);
 
                             try {
                                 //Creates a file writer that writes the users details to a file
