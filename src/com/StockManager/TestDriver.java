@@ -9,6 +9,7 @@ public class TestDriver {
 
         //Testing the basic functions of the Stock Class
         //Manipulates the stock's information
+        System.out.println("Editing Stock Information:");
         wadadli.viewStockInformation();
         wadadli.addToStock(5);
         wadadli.viewStockInformation();
@@ -25,7 +26,10 @@ public class TestDriver {
         //Adds items and test removing from an empty purchasable items list of the supplier
         Supplier BeerCo = new Supplier("BeerCo", "3", "3", admin);
 
+        System.out.println("Printing an empty list:");
         BeerCo.printPurchasableItems();
+
+        System.out.println("Adding items to list:");
         BeerCo.removePurchasableItem("beer", admin);
         BeerCo.addPurchasableItem("beer", "10", admin);
         BeerCo.addPurchasableItem("beer2", "12", admin);
@@ -51,48 +55,63 @@ public class TestDriver {
         BeerCo.printPurchasableItems();
 
         //Test removing items from the list of purchasable items from the supplier
+        System.out.println("Removed an item and added one:");
         BeerCo.removePurchasableItem("beer", admin);
         BeerCo.addPurchasableItem("wadadli", "10", admin);
         BeerCo.printPurchasableItems();
 
         //Prints an invoice for a non-existent item
+        System.out.println("Tried to buy a non-existent item:");
         BeerCo.createAndPrintInvoice("beer30" , 5, admin);
 
         //Testing the basic functions of the User Class and the Invoice function of Supplier
         //Adds and removes stock from the stock list in the User Class
 //        admin.viewStockList();
+        System.out.println("Remove from an empty stock list:");
         admin.removeFromStockList(wadadli);
+
+        System.out.println("Added and removed from stock list:");
         admin.addToStockList(wadadli);
         admin.addToStockList(banks);
         admin.viewStockList();
         admin.removeFromStockList(wadadli);
         admin.viewStockList();
-        
-        System.out.println("Regular next");
+
+        System.out.println("Regular viewing stock list:");
         regular.viewStockList();
 
+        System.out.println("Creating invoices of items not in lists:");
         BeerCo.createAndPrintInvoice("banks" , 5, admin);
         BeerCo.createAndPrintInvoice("wadadli" , 5, admin);
 
+        System.out.println("Creating proper invoices:");
         BeerCo.addPurchasableItem("banks", "10", admin);
         BeerCo.createAndPrintInvoice("banks" , 5, admin);
 
+        System.out.println("Checking the stock info:");
         banks.viewStockInformation();
 
+        System.out.println("Creating invoice and checking stock:");
         BeerCo.createAndPrintInvoice("banks" , 5, admin);
-
         banks.viewStockInformation();
 
         //Testing Customer Class's basic functions
         Customer John = new Customer("John", "email", "d", admin);
 
+        System.out.println("Checking and removing from an item purchased item list:");
         John.printPurchasedItems();
         John.removePurchasedItem("presidente", 4, admin);
+
+        System.out.println("Creating sales receipt:");
         John.createAndPrintSalesReceipt("banks", 4, admin);
 
+        System.out.println("Viewing stock info:");
         banks.viewStockInformation();
+
+        System.out.println("Viewing purchased items:");
         John.printPurchasedItems();
 
+        System.out.println("Undo the purchase:");
         John.removePurchasedItem("banks",4, admin);
         John.printPurchasedItems();
         banks.viewStockInformation();
