@@ -70,6 +70,8 @@ public class Supplier {
         }
     }
 
+    //Adds an item and its price to a list that contains what is sold by the supplier
+    //Only admins have access to this action
     public void addPurchasableItem(String item, String price, User user) {
         //Temporary array that is 10 spaces bigger than original
         String[][] temp = new String[this.supplierItemList.length + 10][2];
@@ -87,6 +89,7 @@ public class Supplier {
                     System.arraycopy(temp[j], 0, this.supplierItemList[j], 0, 2);
                 }
             }
+            //Adds the item and price to the list and moves to the next array location
             this.supplierItemList[i][0] = item;
             this.supplierItemList[i][1] = price;
             i++;
@@ -96,11 +99,15 @@ public class Supplier {
         }
     }
 
+    //Removes an item and its price to a list that contains what is sold by the supplier
+    //Only admins have access to this action
     public void removePurchasableItem(String item, User user) {
         if (user.getUserType().equalsIgnoreCase("admin")) {
             if (this.supplierItemList[0][0] != null) {
                 int j = 0;
 
+                //Searches for the position of the target if it is in the purchasable items list
+                //Or runs till the end of the array or if the next position is null
                 while (!(this.supplierItemList[j][0].equalsIgnoreCase(item)) && j < this.supplierItemList.length - 1 && this.supplierItemList[j + 1][0] != null) {
                     j++;
                 }
@@ -110,23 +117,23 @@ public class Supplier {
                     Integer l = 0;
 
                     //Copies from after the target in the original array into a temporary array
-                    //If the position is not in the first position which is 0, subtract that
-                    //from the length to loop the exact amount
+                    //If the position is not in the first position which is 0
+                    //Subtract the position from the length to loop the exact amount
                     if (j > 0) {
-                        for (Integer k = j + 1; k <= i - l; k++) {
+                        for (int k = j + 1; k <= i - l; k++) {
                             temp[l] = Arrays.copyOf(this.supplierItemList[k], 2);
                             l++;
                         }
                     } else {
-                        //If the position is in the first position which is 0, subtract 1
-                        //from the length to loop the exact amount
-                        for (Integer k = j + 1; k <= i - j; k++) {
+                        //If the position is in the first position which is 0
+                        //Subtract 1 from the length to loop the exact amount
+                        for (int k = j + 1; k <= i - j; k++) {
                             temp[l] = Arrays.copyOf(this.supplierItemList[k], 2);
                             l++;
                         }
                     }
 
-                    Integer k = j;
+                    int k = j;
 
                     //Copies the contents of the temporary array back into the original from the position of the target go up
                     for (l = 0; l < temp.length - j; l++) {
@@ -148,12 +155,14 @@ public class Supplier {
     }
 
     public void printPurchasableItems() {
-        Integer j = 0;
+        int j = 0;
 
+        //Checks if the list of sellable items is null
         if (this.supplierItemList[0][0] == null) {
             System.out.println("There are no purchasable items.\n");
         }
         else {
+            //Cycles through the list and prints the items and their prices
             while (this.supplierItemList[j][0] != null) {
                 System.out.printf("Item %d - %s: $%.2f\n", j + 1, this.supplierItemList[j][0].toUpperCase(), Double.parseDouble(this.supplierItemList[j][1]));
                 j++;
@@ -164,31 +173,43 @@ public class Supplier {
     }
 
     public void createAndPrintInvoice (String item, Integer quantity, User user) {
-        Double invoiceTotal = 0.0;
-        Integer j = 0;
+        double invoiceTotal;
+        int j = 0;
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
+        //Checks if item is the sellable items
+        //If the end of the array is found
+        //If the next position contains nothing
         while (!(this.supplierItemList[j][0].equalsIgnoreCase(item)) && j < this.supplierItemList.length - 1 && this.supplierItemList[j + 1][0] != null) {
             j++;
         }
 
+        //If the item was found
+        //Check if the user is an admin
+        //Check if the stock list has the item in it
+        //Otherwise print the corresponding error
         if (this.supplierItemList[j][0].equalsIgnoreCase(item)) {
             if(user.getUserType().equalsIgnoreCase("admin")) {
-                if (user.checkIfInStock(item) == true) {
+                if (user.checkIfInStock(item)) {
                     this.invoiceNumber += 1;
                     invoiceTotal = Double.parseDouble(this.supplierItemList[j][1]) * quantity;
 
+                    //Add to the amount of stock owned
                     user.addQuantityToStock(item, quantity);
 
                     System.out.printf(
-                            "Invoice Number: %d\n" +
-                                    "Date: %s\n" +
-                                    "Supplier: %s\n" +
-                                    "\nItem: %s\n" +
-                                    "Price: $%.2f\n" +
-                                    "Quantity: %d\n" +
-                                    "Total: $%.2f\n\n",
+                            """
+                                    Invoice Number: %d
+                                    Date: %s
+                                    Supplier: %s
+
+                                    Item: %s
+                                    Price: $%.2f
+                                    Quantity: %d
+                                    Total: $%.2f
+
+                                    """,
                             this.invoiceNumber, formatter.format(date), this.supplierName, item.toUpperCase(), Double.parseDouble(this.supplierItemList[j][1]), quantity, invoiceTotal);
                 }
                 else {

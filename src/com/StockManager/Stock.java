@@ -86,10 +86,12 @@ public class Stock {
             System.out.println("You do not have admin privileges.");
     }
 
+    //Add to amount of stock owned
     public void addToStock(Integer num) {
         this.stockQuantity += num;
     }
 
+    //Remove from amount of stock owned
     public void removeFromStock(Integer num) {
         if(this.stockQuantity <= 0) {
             System.out.println("No more " + this.stockName + " to take from.");
@@ -115,6 +117,7 @@ public class Stock {
             System.out.println("You do not have admin privileges.");
     }
 
+    //View stock information if the information for the stock is not empty
     public void viewStockInformation() {
         if (this.stockName != null && this.stockID != null && this.stockCategory != null && this.stockPrice != null) {
             System.out.printf("Name: %s%n" +

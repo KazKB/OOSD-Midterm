@@ -85,7 +85,8 @@ public class Customer {
         }
     }
 
-    public void addPurchasedItem(String item, Double price, Integer quantity) {
+    //Adds an item, its price and quantity to list of items purchased by the customer
+    public void addPurchasedItem(String item, Double price, int quantity) {
         //Temporary array that is 10 spaces bigger than original
         String[][] temp = new String[this.purchasedItemsList.length + 10][3];
         
@@ -101,43 +102,48 @@ public class Customer {
                     this.purchasedItemsList[j] = Arrays.copyOf(temp[j], temp[j].length);
             }
         }
+        //Adds the item, its price and quantitiy to the list
+        //Moves to the next array position
         this.purchasedItemsList[i][0] = item;
         this.purchasedItemsList[i][1] = String.valueOf(price);
         this.purchasedItemsList[i][2] = String.valueOf(quantity);
         i++;
     }
 
-    public void removePurchasedItem(String item, Integer quantity, User user) {
+    //Removes and item from the purchased item list
+    public void removePurchasedItem(String item, int quantity, User user) {
         if (user.getUserType().equalsIgnoreCase("admin")) {
             if (this.purchasedItemsList[0][0] != null) {
                 int j = 0;
 
+                //Searches for the position of the target if it is in the purchasable items list
+                //Or runs till the end of the array or if the next position is null
                 while (!(this.purchasedItemsList[j][0].equalsIgnoreCase(item)) && !(this.purchasedItemsList[j][2].equalsIgnoreCase(String.valueOf(quantity))) && j < this.purchasedItemsList.length - 1 && this.purchasedItemsList[j + 1][0] != null) {
                     j++;
                 }
 
                 if (this.purchasedItemsList[j][0].equalsIgnoreCase(item) && this.purchasedItemsList[j][2].equalsIgnoreCase(String.valueOf(quantity))) {
                     String[][] temp = new String[this.purchasedItemsList.length][3];
-                    Integer l = 0;
+                    int l = 0;
 
                     //Copies from after the target in the original array into a temporary array
                     //If the position is not in the first position which is 0, subtract that
                     //from the length to loop the exact amount
                     if (j > 0) {
-                        for (Integer k = j + 1; k <= i - l; k++) {
+                        for (int k = j + 1; k <= i - l; k++) {
                             temp[l] = Arrays.copyOf(this.purchasedItemsList[k], 3);
                             l++;
                         }
                     } else {
                         //If the position is in the first position which is 0, subtract 1
                         //from the length to loop the exact amount
-                        for (Integer k = j + 1; k <= i - j; k++) {
+                        for (int k = j + 1; k <= i - j; k++) {
                             temp[l] = Arrays.copyOf(this.purchasedItemsList[k], 3);
                             l++;
                         }
                     }
 
-                    Integer k = j;
+                    int k = j;
 
                     //Copies the contents of the temporary array back into the original from the position of the target go up
                     for (l = 0; l < temp.length - j; l++) {
@@ -162,14 +168,16 @@ public class Customer {
     }
 
     public void printPurchasedItems() {
-        Integer j = 0;
+        int j = 0;
 
+        //Checks if the list of purchased items is null
         if (this.purchasedItemsList[0][0] == null) {
             System.out.println("No items have been purchased.\n");
         }
         else {
-            Double total = 0.0;
+            double total;
 
+            //Cycles through the list and prints the items, its prices and quantity, and the total
             while (this.purchasedItemsList[j][0] != null) {
                 total = Double.parseDouble(this.purchasedItemsList[j][1]) * Integer.parseInt(this.purchasedItemsList[j][2]);
                 System.out.printf("Item %d - %s: $%.2f * %d = $%.2f\n", j + 1, this.purchasedItemsList[j][0].toUpperCase(), Double.parseDouble(this.purchasedItemsList[j][1]), Integer.parseInt(this.purchasedItemsList[j][2]), total);
@@ -180,27 +188,33 @@ public class Customer {
         }
     }
 
-    public void createAndPrintSalesReceipt (String item, Integer quantity, User user) {
-        Double salesReceiptTotal = 0.0;
-        Integer j = 0;
+    public void createAndPrintSalesReceipt (String item, int quantity, User user) {
+        double salesReceiptTotal;
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-        if (user.checkIfInStock(item) == true) {
+        //Checks if item is in stock
+        if (user.checkIfInStock(item)) {
             this.salesReceiptNumber += 1;
 
+            //Removes from the amount owned
+            //Adds item to the purchased item list
             user.removeQuantityFromStock(item, quantity);
             addPurchasedItem(item, user.getStock(item).getStockPrice(), quantity);
             salesReceiptTotal = Double.parseDouble(this.purchasedItemsList[i - 1][1]) * quantity;
 
             System.out.printf(
-                    "Invoice Number: %d\n" +
-                            "Date: %s\n" +
-                            "Supplier: %s\n" +
-                            "\nItem: %s\n" +
-                            "Price: $%.2f\n" +
-                            "Quantity: %d\n" +
-                            "Total: $%.2f\n\n",
+                    """
+                            Invoice Number: %d
+                            Date: %s
+                            Supplier: %s
+
+                            Item: %s
+                            Price: $%.2f
+                            Quantity: %d
+                            Total: $%.2f
+
+                            """,
                     this.salesReceiptNumber, formatter.format(date), this.customerName, item.toUpperCase(), Double.parseDouble(this.purchasedItemsList[i - 1][1]), quantity, salesReceiptTotal);
         }
         else {

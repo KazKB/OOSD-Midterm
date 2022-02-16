@@ -2,8 +2,8 @@ package com.StockManager;
 
 public class TestDriver {
     public static void main(String[] args) {
-        User admin = new User("Kaleel Boston", "kaleelboston@gmail.com", "KB12", "admIn", "password");
-        User regular = new User("Regular Regular", "regular@gmail.com", "R12", "regular", "password");
+        User admin = new User("Kaleel", "Boston", "kaleelboston@gmail.com", "KB12", "admIn", "password");
+        User regular = new User("Regular", "Regular", "regular@gmail.com", "R12", "regular", "password");
         Stock wadadli = new Stock("Wadadli", "Antiguan Beer", "B1", "Alchohol", 10.0, admin);
         Stock banks = new Stock("Banks", "Beer", "B1", "Alchohol", 10.0, admin);
 

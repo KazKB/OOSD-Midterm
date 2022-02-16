@@ -14,14 +14,6 @@ public class User {
         this.userID = id;
     }
 
-    public User(String name, String email, String id, String type, String password) {
-        this.userName = name;
-        this.userEmail = email;
-        this.userID = id;
-        this.userType = type;
-        this.password = password;
-    }
-
     public User(String firstName, String lastName, String email, String id, String type, String password) {
         this.userName = firstName + " " + lastName;
         this.userEmail = email;
@@ -73,11 +65,13 @@ public class User {
 
     public void addToStockList(Stock stock) {
         if (this.userType.equalsIgnoreCase("admin")) {
-            if (this.i >= stockList.length) {
+            //Increases stockList's max size when capacity is reached
+            if (i >= stockList.length) {
                 stockList = Arrays.copyOf(stockList, stockList.length + 5);
             }
-            stockList[this.i] = stock;
-            this.i++;
+            //Adds stock to stock list and increases the position to the next location
+            stockList[i] = stock;
+            i++;
         }
         else {
             System.out.println("You do not have admin privileges.\n");
@@ -85,19 +79,20 @@ public class User {
     }
 
     public void removeFromStockList(Stock stock) {
-        Integer k = 0;
+        int k = 0;
 
         if (this.userType.equalsIgnoreCase("admin")) {
             if (stockList[0] != null) {
                 //Cycles through until the end of the array or until the particular stock is found
-                while (!stockList[k].getStockName().equalsIgnoreCase(stock.getStockName()) && k < this.i - 1) {
+                while (!stockList[k].getStockName().equalsIgnoreCase(stock.getStockName()) && k < i - 1) {
                     k++;
                 }
-                //If stock is found, remove it and the rest after it from the list.
-                //Then copy the rest stock back to the list.
+                //If target is found, remove it and the rest stock after it from the list
+                //Then copy the stock after the list back to the list
+                //As well decrease the position for where the next stock item will be added
                 if (stockList[k].getStockName().equalsIgnoreCase(stock.getStockName())) {
-                    System.arraycopy(stockList, k + 1, stockList, k, this.i);
-                    this.i--;
+                    System.arraycopy(stockList, k + 1, stockList, k, i);
+                    i--;
                 } else {
                     System.out.println(stock.getStockName().toUpperCase() + " is not in stock.\n");
                 }
@@ -112,11 +107,13 @@ public class User {
     }
 
     public void viewStockList() {
+        //Checks if stock list is empty
         if (stockList[0].getStockName() == null) {
             System.out.println("Stock List is empty.\n");
         }
         else {
-            for (Integer k = 0; k < this.i; k++) {
+            //If not empty print what is in the list's name
+            for (int k = 0; k < i; k++) {
                 System.out.println(stockList[k].getStockName().toUpperCase());
             }
             System.out.println();
@@ -124,52 +121,50 @@ public class User {
     }
 
     public boolean checkIfInStock(String stock) {
-        Integer k = 0;
+        int k = 0;
 
-        //Cycles through array until stock is found, end has reached or the next item is null
-        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+        //Cycles through array until target is found, end was reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < i && stockList[k + 1] != null) {
             k++;
         }
 
-        //Checks if the stock item is in or not
-        if(stockList[k].getStockName().equalsIgnoreCase(stock)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        //Returns whether the target was found or not
+        return stockList[k].getStockName().equalsIgnoreCase(stock);
     }
 
     public void addQuantityToStock(String stock, Integer quantity) {
-        Integer k = 0;
+        int k = 0;
 
-        //Cycles through array until stock is found, end has reached or the next item is null
-        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+        //Cycles through array until target is found, end has reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < i && stockList[k + 1] != null) {
             k++;
         }
 
+        //Add to the amount of stock owned
         stockList[k].addToStock(quantity);
     }
 
     public void removeQuantityFromStock(String stock, Integer quantity) {
-        Integer k = 0;
+        int k = 0;
 
-        //Cycles through array until stock is found, end has reached or the next item is null
-        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+        //Cycles through array until stock is found, end was reached or the next item is null
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < i && stockList[k + 1] != null) {
             k++;
         }
 
+        //Remove from amount of stock owned
         stockList[k].removeFromStock(quantity);
     }
 
     public Stock getStock(String stock) {
-        Integer k = 0;
+        int k = 0;
 
         //Cycles through array until stock is found, end has reached or the next item is null
-        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < this.i && stockList[k + 1] != null) {
+        while (!stockList[k].getStockName().equalsIgnoreCase(stock) && k < i && stockList[k + 1] != null) {
             k++;
         }
 
+        //Returns target if found
         return stockList[k];
     }
 }
