@@ -7,11 +7,14 @@ public class User {
     private static Stock[] stockList = new Stock[10];
     private static Integer i = 0;
 
-    public User() {}
+    public User() {
+        stockList[0] = new Stock();
+    }
 
     public User(String type, String id) {
         this.userType = type;
         this.userID = id;
+        stockList[0] = new Stock();
     }
 
     public User(String firstName, String lastName, String email, String id, String type, String password) {
@@ -20,6 +23,7 @@ public class User {
         this.userID = id;
         this.userType = type;
         this.password = password;
+        stockList[0] = new Stock();
     }
 
     //Getters and Setters will be used to edit this Class
@@ -108,7 +112,7 @@ public class User {
 
     public void viewStockList() {
         //Checks if stock list is empty
-        if (stockList[0].getStockName() == null) {
+        if (stockList[0].getStockName().equals("")) {
             System.out.println("Stock List is empty.\n");
         }
         else {

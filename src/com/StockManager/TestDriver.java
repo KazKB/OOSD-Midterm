@@ -30,7 +30,7 @@ public class TestDriver {
         BeerCo.printPurchasableItems();
 
         System.out.println("Adding items to list:");
-        BeerCo.removePurchasableItem("beer", admin);
+        BeerCo.removePurchasableItem("beer", regular);
         BeerCo.addPurchasableItem("beer", "10", admin);
         BeerCo.addPurchasableItem("beer2", "12", admin);
         BeerCo.addPurchasableItem("beer3", "13", admin);
@@ -57,6 +57,7 @@ public class TestDriver {
         //Test removing items from the list of purchasable items from the supplier
         System.out.println("Removed an item and added one:");
         BeerCo.removePurchasableItem("beer", admin);
+        BeerCo.removePurchasableItem("beer21", admin);
         BeerCo.addPurchasableItem("wadadli", "10", admin);
         BeerCo.printPurchasableItems();
 
@@ -66,16 +67,22 @@ public class TestDriver {
 
         //Testing the basic functions of the User Class and the Invoice function of Supplier
         //Adds and removes stock from the stock list in the User Class
-//        admin.viewStockList();
-        System.out.println("Remove from an empty stock list:");
-        admin.removeFromStockList(wadadli);
+        System.out.println("Viewing an empty stock list:");
+        admin.viewStockList();
 
-        System.out.println("Added and removed from stock list:");
+        System.out.println("Admin remove from an empty stock list:");
+        admin.removeFromStockList(wadadli);
+        System.out.println("Regular remove from an empty stock list:");
+        regular.removeFromStockList(wadadli);
+
+        System.out.println("Regular trying to add and remove from stock list:");
+        regular.addToStockList(wadadli);
+        System.out.println("Admin adding and removing from stock list:");
         admin.addToStockList(wadadli);
         admin.addToStockList(banks);
         admin.viewStockList();
         admin.removeFromStockList(wadadli);
-        admin.viewStockList();
+        regular.viewStockList();
 
         System.out.println("Regular viewing stock list:");
         regular.viewStockList();
@@ -101,8 +108,10 @@ public class TestDriver {
         System.out.println("Checking and removing from an item purchased item list:");
         John.printPurchasedItems();
         John.removePurchasedItem("presidente", 4, admin);
+        John.removePurchasedItem("presidente", 4, regular);
 
         System.out.println("Creating sales receipt:");
+        John.createAndPrintSalesReceipt("banks", 4, regular);
         John.createAndPrintSalesReceipt("banks", 4, admin);
 
         System.out.println("Viewing stock info:");
@@ -112,6 +121,7 @@ public class TestDriver {
         John.printPurchasedItems();
 
         System.out.println("Undo the purchase:");
+        John.removePurchasedItem("banks",4, regular);
         John.removePurchasedItem("banks",4, admin);
         John.printPurchasedItems();
         banks.viewStockInformation();
