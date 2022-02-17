@@ -23,7 +23,7 @@ public class Supplier {
     }
 
     //Basically the constructor but as a method
-    public void editSupplierInfo(String name, String email, String contactNumber, User user) {
+    public void editSupplierInformation(String name, String email, String contactNumber, User user) {
         if(user.getUserType().equalsIgnoreCase("admin")) {
             this.supplierName = name;
             this.supplierEmail = email;

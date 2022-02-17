@@ -8,7 +8,7 @@ public class Stock {
     private Double stockPrice;
 
     public Stock() {
-        stockName = "";
+        this.stockName = "";
     }
 
     public Stock(String name, Double price, User user) {
